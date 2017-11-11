@@ -4,6 +4,17 @@ class ListaAmigos:
         self.ulti=None
         self.len=None
 
+class ListaUsuarios:
+    def __init__(self):
+        self.prim =None
+        self.ulti =None
+        self.len = None
+class Amistad:
+    def __init__(self,usuario,fechaIni):
+        self.fechaIni =fechaIni
+        self.usario = usuario
+
+
 class NodoAmigo:
     def __init__(self, amigo):
         self.amigo = amigo
@@ -21,28 +32,43 @@ class  Usuario:
         self.dia = fecha.dia
         self.mes = fecha.mes
         self.anio = fecha.anio
+        #lista de amistades
+        #lista de fotos
+
+
+    def __str__(self):
+        return (self.codigo)
+
+class Foto:
+    def __init__(self,fecha, url, etiquetas):
+        self.fecha = self.fecha
+        self.url = url
+        self.etiquetas =etiquetas
 
 
 
+with open('usuarios.txt', 'r') as myfile:
+    codigo = myfile.readline()
+    nombre = myfile.readline().replace('\n', '')
+    dia,mes,anio = myfile.readline().split()
+    fecha = Fecha(dia,mes,anio)
+    usr1 = Usuario(codigo,nombre,fecha)
 
 
-def main():
+with open('fotos.txt', 'r') as myfile:
 
-    with open('usuarios.txt', 'r') as myfile:
-        codigo = myfile.readline()
-        nombre = myfile.readline().replace('\n', '')
-        dia,mes,anio = myfile.readline().split()
-        fecha = Fecha(dia,mes,anio)
-        usr1 = Usuario(codigo,nombre,fecha)
+    dia,mes,anio = myfile.readline().split()
+    fecha = Fecha(dia,mes,anio)
+    url = myfile.readline()
 
-    print(codigo)
-    print(nombre)
-    print(dia,mes,anio)
-    print(usr1)
+    usr1 = Usuario(codigo,nombre,fecha)
 
 
 
-    
+print(codigo)
+print(nombre)
+print()
+print(dia,mes,anio)
+print()
+print(usr1)
 
-if __name__ == '__main__':
-    main()
