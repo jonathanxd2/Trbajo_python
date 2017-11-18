@@ -1,74 +1,89 @@
-class ListaAmigos:
-    def __init__(self):
-        self.prim=None
-        self.ulti=None
-        self.len=None
+from usuariofile import UsuarioFileReader
+from amistadesFile import AmistadesFileReader
+from fotosFile import FotosFileReader
+def main():
 
-class ListaUsuarios:
-    def __init__(self):
-        self.prim =None
-        self.ulti =None
-        self.len = None
-class Amistad:
-    def __init__(self,usuario,fechaIni):
-        self.fechaIni =fechaIni
-        self.usario = usuario
+    FILEN = "usuarios.txt"
+    readerUsu = UsuarioFileReader(FILEN)
+    readerUsu.open()
+    usuarioListUsu = readerUsu.buscaTod()
+    readerUsu.close()
+    #printReport(usuarioListUsu)
 
-
-class NodoAmigo:
-    def __init__(self, amigo):
-        self.amigo = amigo
-        self.next = None
-class Fecha:
-    def __init__(self,dia,mes,anio):
-        self.dia=dia
-        self.mes=mes
-        self.anio=anio
-
-class  Usuario:
-    def __init__(self,codigo,nombre,fecha):
-        self.codigo = codigo
-        self.nombre = nombre
-        self.dia = fecha.dia
-        self.mes = fecha.mes
-        self.anio = fecha.anio
-        #lista de amistades
-        #lista de fotos
+    print("-----------------------------------------------")
+    FILEAMISTAD = "amistades.txt"
+    readerAmistad = AmistadesFileReader(FILEAMISTAD)
+    readerAmistad.open()
+    amistadlistaDeAmi = readerAmistad.buscaTod()
+    readerAmistad.close()
+    # printAmistad(amistadlistaDeAmi)
 
 
-    def __str__(self):
-        return (self.codigo)
-
-class Foto:
-    def __init__(self,fecha, url, etiquetas):
-        self.fecha = self.fecha
-        self.url = url
-        self.etiquetas =etiquetas
+    FILEFOTO = "fotos.txt"
+    readerFoto = FotosFileReader(FILEFOTO)
+    readerFoto.open()
+    fotoslistaDeFotos = readerFoto.buscaTodos()
+    readerFoto.close()
+    #printFotos(fotoslistaDeFotos)
 
 
+    while 1:
 
-with open('usuarios.txt', 'r') as myfile:
-    codigo = myfile.readline()
-    nombre = myfile.readline().replace('\n', '')
-    dia,mes,anio = myfile.readline().split()
-    fecha = Fecha(dia,mes,anio)
-    usr1 = Usuario(codigo,nombre,fecha)
+        id = int(input("Elige el Usuario: "))
 
-
-with open('fotos.txt', 'r') as myfile:
-
-    dia,mes,anio = myfile.readline().split()
-    fecha = Fecha(dia,mes,anio)
-    url = myfile.readline()
-
-    usr1 = Usuario(codigo,nombre,fecha)
+        for usu in usuarioListUsu:
+            if usu.id == id :
+                usuario = usu
 
 
+        print("*ID:", usuario.id)
+        print("*Nombre:",usuario.name)
+        print("*Fecha Nacimiento:",usuario.fecha)
+        print("*Fotos:")
+        for foto in fotoslistaDeFotos:
+            if (foto.idSubio == usuario.id):
+                foto = foto
+                print(foto.fecha+", ", end='')
+                print(foto.url+",", end='')
+                print(" Etiquetados:", end='')
+                lista = foto.listaEtiquet
+                for i in range(foto.cant):
+                    print(foto.listaEtiquet[i],",",end='')
+                print()
+        print("*Amistaades:")
+        for amigo in amistadlistaDeAmi:
+            if (amigo.idAmio == usuario.id):
+                amigo = amigo
+                print(amigo.fecha,",","ID:" ,amigo.idAmio2)
+            if (amigo.idAmio2 == usuario.id):
+                amigo = amigo
+                print(amigo.fecha,",","ID:" ,amigo.idAmio)
+        print()
+        input("Presione Enter para continuar...")
 
-print(codigo)
-print(nombre)
-print()
-print(dia,mes,anio)
-print()
-print(usr1)
+        print("-----------------------------------------------------")
 
+def printAmistad(theList):
+    for record in theList:
+        print(record.idAmione)
+        print(record.idAmitwo)
+        print(record.fecha)
+
+
+def printReport(theList):
+    for record in theList:
+        print(record.id)
+        print(record.name)
+        print(record.fecha)
+    print("-"*10)
+
+def printFotos(lista):
+    for foto in lista:
+        print(foto.fecha)
+        print(foto.url)
+        print(foto.idSubio)
+        print(foto.cant)
+        for i in foto.listaEtiquet:
+            print(i)
+        print()
+main()
